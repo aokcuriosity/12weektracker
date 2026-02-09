@@ -1,729 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>12 Week Year - Team Tracker</title>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #0a0a0a;
-            --accent: #ff6b35;
-            --success: #06d6a0;
-            --warning: #ffd23f;
-            --danger: #ef476f;
-            --bg: #fafafa;
-            --card: #ffffff;
-            --text: #1a1a1a;
-            --text-secondary: #666666;
-            --border: #e0e0e0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>12 Week Year Tracker</title>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
-            color: var(--text);
-            min-height: 100vh;
-            padding: 2rem 1rem;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        h1 {
-            font-family: 'Archivo Black', sans-serif;
-            font-size: 3rem;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.02em;
-            text-transform: uppercase;
-        }
-
-        .setup-banner {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 16px;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .setup-banner.hidden {
-            display: none;
-        }
-
-        .setup-banner h3 {
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
-        .setup-banner input {
-            padding: 1rem;
-            border-radius: 8px;
-            border: none;
-            width: 100%;
-            max-width: 700px;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .setup-banner button {
-            background: white;
-            color: #667eea;
-            border: none;
-            padding: 1rem 3rem;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-        }
-
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 1rem;
-        }
-
-        .week-selector {
-            display: inline-flex;
-            align-items: center;
-            gap: 1rem;
-            background: var(--card);
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-        }
-
-        .week-selector label {
-            font-weight: 700;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .week-selector select {
-            font-family: 'DM Sans', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-            border: none;
-            background: transparent;
-            color: var(--accent);
-            cursor: pointer;
-            outline: none;
-            padding: 0.5rem;
-        }
-
-        .tab-buttons {
-            display: flex;
-            gap: 0.5rem;
-            justify-content: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .tab-btn {
-            background: var(--card);
-            border: 2px solid var(--border);
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'DM Sans', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .tab-btn:hover {
-            border-color: var(--accent);
-        }
-
-        .tab-btn.active {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: white;
-        }
-
-        .view-section {
-            display: none;
-        }
-
-        .view-section.active {
-            display: block;
-        }
-
-        .scorecard {
-            background: var(--card);
-            border-radius: 24px;
-            padding: 2.5rem;
-            box-shadow: 0 8px 40px rgba(0,0,0,0.1);
-        }
-
-        .team-member {
-            margin-bottom: 1.5rem;
-        }
-
-        .team-member input[type="text"] {
-            width: 100%;
-            padding: 1rem 1.5rem;
-            font-size: 1.1rem;
-            font-weight: 500;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            font-family: 'DM Sans', sans-serif;
-            transition: all 0.3s ease;
-            background: var(--bg);
-        }
-
-        .team-member input[type="text"]:focus {
-            outline: none;
-            border-color: var(--accent);
-            background: white;
-            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
-        }
-
-        .goal-block {
-            background: var(--bg);
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .goal-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .goal-number {
-            background: var(--accent);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.1rem;
-            flex-shrink: 0;
-        }
-
-        .goal-input {
-            flex: 1;
-            padding: 0.75rem 1rem;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            font-size: 1.05rem;
-            font-weight: 600;
-            font-family: 'DM Sans', sans-serif;
-            transition: all 0.3s ease;
-            background: white;
-        }
-
-        .goal-input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
-        }
-
-        .actions-list {
-            margin-left: 3.5rem;
-        }
-
-        .action-item {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 1rem;
-            align-items: center;
-            padding: 1rem;
-            background: white;
-            border-radius: 10px;
-            margin-bottom: 0.75rem;
-        }
-
-        .action-input {
-            padding: 0.5rem 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-family: 'DM Sans', sans-serif;
-        }
-
-        .status-selector {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .status-btn {
-            padding: 0.5rem 1rem;
-            border: 2px solid var(--border);
-            background: white;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
-            text-transform: uppercase;
-        }
-
-        .status-btn.active.done {
-            background: var(--success);
-            border-color: var(--success);
-            color: white;
-        }
-
-        .status-btn.active.partial {
-            background: var(--warning);
-            border-color: var(--warning);
-            color: var(--primary);
-        }
-
-        .status-btn.active.not-done {
-            background: var(--danger);
-            border-color: var(--danger);
-            color: white;
-        }
-
-        .goal-score {
-            display: inline-block;
-            margin-left: 1rem;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.9rem;
-        }
-
-        .goal-score.high {
-            background: var(--success);
-            color: white;
-        }
-
-        .goal-score.medium {
-            background: var(--warning);
-            color: var(--primary);
-        }
-
-        .goal-score.low {
-            background: var(--danger);
-            color: white;
-        }
-
-        .overall-score {
-            margin-top: 3rem;
-            padding: 2rem;
-            background: linear-gradient(135deg, var(--primary) 0%, #2a2a2a 100%);
-            border-radius: 16px;
-            text-align: center;
-            color: white;
-        }
-
-        .overall-score h2 {
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 1rem;
-            opacity: 0.8;
-        }
-
-        .score-display {
-            font-family: 'Archivo Black', sans-serif;
-            font-size: 5rem;
-            margin: 1rem 0;
-        }
-
-        .score-message {
-            font-size: 1.2rem;
-            font-weight: 500;
-            margin-top: 1rem;
-            padding: 1rem;
-            border-radius: 8px;
-            background: rgba(255,255,255,0.1);
-        }
-
-        .info-box {
-            background: #fffbf0;
-            border-left: 4px solid var(--warning);
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-        }
-
-        .info-box p {
-            line-height: 1.6;
-            margin-bottom: 0.5rem;
-        }
-
-        .team-grid {
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .team-member-card {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-        }
-
-        .team-member-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--border);
-        }
-
-        .team-member-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .save-indicator {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--success);
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            font-weight: 600;
-            box-shadow: 0 4px 12px rgba(6, 214, 160, 0.3);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 1000;
-        }
-
-        .save-indicator.show {
-            opacity: 1;
-        }
-
-        @media (max-width: 768px) {
-            h1 { font-size: 2rem; }
-            .action-item { grid-template-columns: 1fr; }
-            .status-btn { flex: 1; padding: 0.6rem 0.5rem; font-size: 0.75rem; }
-            .actions-list { margin-left: 0; }
-            .scorecard { padding: 1.5rem; }
-            .score-display { font-size: 3.5rem; }
-        }
-    </style>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 700px;
+  margin: auto;
+}
+h1 { text-align: center; }
+input, button, select {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+}
+button { cursor: pointer; font-weight: bold; }
+.done { background: #06d6a0; color: white; }
+.partial { background: #ffd23f; }
+.not { background: #ef476f; color: white; }
+.card { border: 1px solid #ddd; padding: 12px; margin-bottom: 12px; }
+</style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>12 Week Year Tracker</h1>
-            <div class="controls">
-                <div class="week-selector">
-                    <label for="weekNumber">Week</label>
-                    <select id="weekNumber" onchange="changeWeek()">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                    </select>
-                </div>
-            </div>
-        </div>
 
-        <div class="setup-banner" id="setupBanner">
-            <h3>🔗 Connect to Google Sheets</h3>
-            <p style="margin-bottom: 1rem;">Paste your Google Apps Script Web App URL to sync data:</p>
-            <input type="text" id="webAppUrl" placeholder="https://script.google.com/macros/s/YOUR_ID/exec" value="">
-            <br>
-            <button onclick="saveWebAppUrl()">Save & Connect</button>
-        </div>
+<h1>12 Week Year Tracker</h1>
 
-        <div class="tab-buttons">
-            <button class="tab-btn active" onclick="switchTab('scorecard')">My Scorecard</button>
-            <button class="tab-btn" onclick="switchTab('team')">Team View</button>
-        </div>
+<select id="user">
+  <option value="">Select name</option>
+  <option>Aubrey</option>
+  <option>Claire</option>
+  <option>Carol</option>
+  <option>Litty</option>
+</select>
 
-        <div id="scorecard-view" class="view-section active">
-            <div class="info-box">
-                <p><strong>The 12 Week Year:</strong> Redefine your year as 12 weeks to create urgency and maximize execution.</p>
-                <p><strong>How to use:</strong> Enter your name, list 5 goals, add weekly actions, mark as Done/Partial/Not Done. Score updates automatically!</p>
-            </div>
+<select id="week">
+  <script>
+    for (let i=1;i<=12;i++) {
+      document.write(`<option value="${i}">Week ${i}</option>`);
+    }
+  </script>
+</select>
 
-            <div class="scorecard">
-                <div class="team-member">
-                    <input type="text" id="memberName" placeholder="Enter your name..." onchange="saveName()">
-                </div>
+<div id="goals"></div>
 
-                <div id="goalsContainer"></div>
+<button onclick="submitWeek()">SUBMIT WEEK</button>
 
-                <div class="overall-score">
-                    <h2>Weekly Execution Score</h2>
-                    <div class="score-display" id="overallScore">0%</div>
-                    <div class="score-message" id="scoreMessage">Complete your actions to calculate score!</div>
-                </div>
-            </div>
-        </div>
+<script>
+const WEB_APP_URL =
+"https://script.google.com/macros/s/AKfycbwKRxrcj5XQ22IWZgCgYbpH7j9MnQNoRLLXrd05uaHp7Qfo0QZypC4TvL1qgN_1SuPoLA/exec";
 
-        <div id="team-view" class="view-section">
-            <div class="scorecard">
-                <h2 style="margin-bottom: 2rem; font-size: 1.8rem;">Team Progress - Week <span id="teamWeekDisplay">1</span></h2>
-                <div id="teamContainer" class="team-grid"></div>
-            </div>
-        </div>
-    </div>
+const goalsDiv = document.getElementById("goals");
 
-    <div class="save-indicator" id="saveIndicator">✓ Synced to Google Sheets</div>
+for (let g=1; g<=3; g++) {
+  const d = document.createElement("div");
+  d.className = "card";
+  d.innerHTML = `
+    <strong>Goal ${g}</strong>
+    <input placeholder="Goal text">
+    <input placeholder="Action">
+    <button onclick="set(this,'done')" class="done">Done</button>
+    <button onclick="set(this,'partial')" class="partial">Partial</button>
+    <button onclick="set(this,'not')" class="not">Not Done</button>
+  `;
+  goalsDiv.appendChild(d);
+}
 
-    <script>
-        let currentWeek = 1;
-        let currentUser = '';
-        let webAppUrl = localStorage.getItem('webAppUrl') || '';
+function set(btn,status){
+  btn.parentElement.dataset.status=status;
+}
 
-        function saveWebAppUrl() {
-            const url = document.getElementById('webAppUrl').value.trim();
-            if (url) {
-                localStorage.setItem('webAppUrl', url);
-                webAppUrl = url;
-                document.getElementById('setupBanner').classList.add('hidden');
-                alert('✅ Connected! Your data will now sync to Google Sheets.');
-            } else {
-                alert('Please enter your Web App URL');
-            }
-        }
+function submitWeek(){
+  const user = document.getElementById("user").value;
+  const week = Number(document.getElementById("week").value);
+  if (!user) { alert("Pick a name"); return; }
 
-        function saveName() {
-            currentUser = document.getElementById('memberName').value;
-            localStorage.setItem('12week_userName', currentUser);
-        }
+  let total=0, possible=0;
+  const goals=[];
 
-        function changeWeek() {
-            saveCurrentWeek();
-            currentWeek = parseInt(document.getElementById('weekNumber').value);
-            loadWeekData();
-            document.getElementById('teamWeekDisplay').textContent = currentWeek;
-        }
+  document.querySelectorAll(".card").forEach(c=>{
+    const goal=c.querySelector("input").value;
+    const action=c.querySelectorAll("input")[1].value;
+    const status=c.dataset.status||"";
+    if (action) {
+      possible++;
+      if (status==="done") total++;
+      if (status==="partial") total+=0.5;
+    }
+    goals.push({goal,action,status});
+  });
 
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            document.querySelectorAll('.view-section').forEach(view => view.classList.remove('active'));
-            document.getElementById(tab + '-view').classList.add('active');
-            if (tab === 'team') updateTeamView();
-        }
+  const score = possible ? Math.round(total/possible*100) : 0;
 
-        function initializeScorecard() {
-            const container = document.getElementById('goalsContainer');
-            container.innerHTML = '';
-            for (let i = 1; i <= 5; i++) {
-                const goalBlock = document.createElement('div');
-                goalBlock.className = 'goal-block';
-                goalBlock.id = `goal-${i}`;
-                goalBlock.innerHTML = `
-                    <div class="goal-header">
-                        <div class="goal-number">${i}</div>
-                        <input type="text" class="goal-input" placeholder="Enter Goal ${i}..." onchange="saveCurrentWeek()">
-                        <span class="goal-score" id="goal-${i}-score"></span>
-                    </div>
-                    <div class="actions-list" id="actions-${i}"></div>
-                `;
-                container.appendChild(goalBlock);
-                for (let j = 1; j <= 5; j++) addActionItem(i, j);
-            }
-        }
+  fetch(WEB_APP_URL,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({userName:user,week,score,goals})
+  });
 
-        function addActionItem(goalNum, actionNum) {
-            const actionsList = document.getElementById(`actions-${goalNum}`);
-            const actionItem = document.createElement('div');
-            actionItem.className = 'action-item';
-            actionItem.id = `action-${goalNum}-${actionNum}`;
-            actionItem.innerHTML = `
-                <input type="text" class="action-input" placeholder="Weekly Action ${actionNum}..." onchange="saveCurrentWeek()">
-                <div class="status-selector">
-                    <button class="status-btn" data-status="done" onclick="selectStatus(${goalNum}, ${actionNum}, 'done')">Done</button>
-                    <button class="status-btn" data-status="partial" onclick="selectStatus(${goalNum}, ${actionNum}, 'partial')">Partial</button>
-                    <button class="status-btn" data-status="not-done" onclick="selectStatus(${goalNum}, ${actionNum}, 'not-done')">Not Done</button>
-                </div>
-            `;
-            actionsList.appendChild(actionItem);
-        }
+  alert("Submitted");
+}
+</script>
 
-        function selectStatus(goalNum, actionNum, status) {
-            const actionItem = document.getElementById(`action-${goalNum}-${actionNum}`);
-            actionItem.querySelectorAll('.status-btn').forEach(btn => {
-                btn.classList.remove('active', 'done', 'partial', 'not-done');
-            });
-            actionItem.querySelector(`[data-status="${status}"]`).classList.add('active', status);
-            actionItem.dataset.status = status;
-            calculateScore();
-            saveCurrentWeek();
-        }
-
-        function calculateScore() {
-            let totalPoints = 0, totalPossible = 0;
-            for (let i = 1; i <= 5; i++) {
-                const actions = document.getElementById(`actions-${i}`).querySelectorAll('.action-item');
-                const goalScoreElement = document.getElementById(`goal-${i}-score`);
-                let goalPoints = 0, goalPossible = 0, hasAnyActions = false;
-                actions.forEach(action => {
-                    const actionInput = action.querySelector('.action-input');
-                    const status = action.dataset.status;
-                    if (actionInput.value.trim() !== '') {
-                        hasAnyActions = true;
-                        goalPossible += 1;
-                        if (status === 'done') goalPoints += 1;
-                        else if (status === 'partial') goalPoints += 0.5;
-                    }
-                });
-                if (hasAnyActions && goalPossible > 0) {
-                    const goalPercent = (goalPoints / goalPossible) * 100;
-                    goalScoreElement.textContent = Math.round(goalPercent) + '%';
-                    goalScoreElement.style.display = 'inline-block';
-                    goalScoreElement.classList.remove('high', 'medium', 'low');
-                    if (goalPercent >= 85) goalScoreElement.classList.add('high');
-                    else if (goalPercent >= 70) goalScoreElement.classList.add('medium');
-                    else goalScoreElement.classList.add('low');
-                    totalPoints += goalPoints;
-                    totalPossible += goalPossible;
-                } else {
-                    goalScoreElement.style.display = 'none';
-                }
-            }
-            const overallScore = totalPossible > 0 ? (totalPoints / totalPossible) * 100 : 0;
-            document.getElementById('overallScore').textContent = Math.round(overallScore) + '%';
-            const messageElement = document.getElementById('scoreMessage');
-            if (overallScore >= 85) messageElement.textContent = '🔥 Outstanding! On track!';
-            else if (overallScore >= 70) messageElement.textContent = '👍 Good! Push to 85%+';
-            else if (overallScore >= 50) messageElement.textContent = '⚠️ Below target';
-            else if (overallScore > 0) messageElement.textContent = '🚨 Critical!';
-            else messageElement.textContent = 'Complete your actions to calculate score!';
-            return Math.round(overallScore);
-        }
-
-        async function saveCurrentWeek() {
-            if (!currentUser) currentUser = document.getElementById('memberName').value || 'Anonymous';
-            const weekData = {userName: currentUser, week: currentWeek, goals: [], score: calculateScore(), timestamp: new Date().toISOString()};
-            for (let i = 1; i <= 5; i++) {
-                const goalInput = document.querySelector(`#goal-${i} .goal-input`);
-                const actions = document.getElementById(`actions-${i}`).querySelectorAll('.action-item');
-                const goalData = {text: goalInput.value, actions: []};
-                actions.forEach(action => {
-                    goalData.actions.push({
-                        text: action.querySelector('.action-input').value,
-                        status: action.dataset.status || ''
-                    });
-                });
-                weekData.goals.push(goalData);
-            }
-            localStorage.setItem(`12week_${currentUser}_week${currentWeek}`, JSON.stringify(weekData));
-            if (webAppUrl) {
-                try {
-                    await fetch(webAppUrl, {method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(weekData)});
-                    showSaveIndicator();
-                } catch (error) {
-                    console.error('Error:', error);
-                }
-            }
-        }
-
-        function loadWeekData() {
-            if (!currentUser) return;
-            const savedData = localStorage.getItem(`12week_${currentUser}_week${currentWeek}`);
-            if (savedData) {
-                const weekData = JSON.parse(savedData);
-                weekData.goals.forEach((goal, goalIndex) => {
-                    const goalInput = document.querySelector(`#goal-${goalIndex + 1} .goal-input`);
-                    if (goalInput) goalInput.value = goal.text;
-                    goal.actions.forEach((action, actionIndex) => {
-                        const actionItem = document.getElementById(`action-${goalIndex + 1}-${actionIndex + 1}`);
-                        if (actionItem) {
-                            actionItem.querySelector('.action-input').value = action.text;
-                            if (action.status) {
-                                actionItem.dataset.status = action.status;
-                                const btn = actionItem.querySelector(`[data-status="${action.status}"]`);
-                                if (btn) btn.classList.add('active', action.status);
-                            }
-                        }
-                    });
-                });
-                calculateScore();
-            } else {
-                initializeScorecard();
-            }
-        }
-
-        async function updateTeamView() {
-            const container = document.getElementById('teamContainer');
-            if (!webAppUrl) {
-                container.innerHTML = '<p style="text-align: center; padding: 2rem;">Connect to Google Sheets to see team data</p>';
-                return;
-            }
-            container.innerHTML = '<p style="text-align: center; padding: 2rem;">Loading...</p>';
-            try {
-                const response = await fetch(webAppUrl);
-                const allData = await response.json();
-                const weekData = allData.filter(entry => entry.week === currentWeek);
-                container.innerHTML = '';
-                if (weekData.length === 0) {
-                    container.innerHTML = '<p style="text-align: center; padding: 2rem;">No team data yet</p>';
-                    return;
-                }
-                weekData.forEach(member => {
-                    const scoreClass = member.score >= 85 ? 'high' : member.score >= 70 ? 'medium' : 'low';
-                    const card = document.createElement('div');
-                    card.className = 'team-member-card';
-                    card.innerHTML = `
-                        <div class="team-member-header">
-                            <div class="team-member-name">${member.userName}</div>
-                            <span class="goal-score ${scoreClass}">${member.score}%</span>
-                        </div>
-                        <div style="font-size: 0.9rem; color: var(--text-secondary);">
-                            Last updated: ${new Date(member.timestamp).toLocaleString()}
-                        </div>
-                    `;
-                    container.appendChild(card);
-                });
-            } catch (error) {
-                container.innerHTML = '<p style="text-align: center; color: var(--danger); padding: 2rem;">Error loading team data</p>';
-            }
-        }
-
-        function showSaveIndicator() {
-            const indicator = document.getElementById('saveIndicator');
-            indicator.classList.add('show');
-            setTimeout(() => indicator.classList.remove('show'), 2000);
-        }
-
-        // Initialize
-        currentUser = localStorage.getItem('12week_userName') || '';
-        document.getElementById('memberName').value = currentUser;
-        if (webAppUrl) {
-            document.getElementById('webAppUrl').value = webAppUrl;
-            document.getElementById('setupBanner').classList.add('hidden');
-        }
-        initializeScorecard();
-        loadWeekData();
-    </script>
 </body>
 </html>
