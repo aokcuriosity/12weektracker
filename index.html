@@ -41,18 +41,6 @@
         .header {
             text-align: center;
             margin-bottom: 3rem;
-            animation: slideDown 0.6s ease-out;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         h1 {
@@ -67,23 +55,27 @@
         .setup-banner {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 1.5rem;
+            padding: 2rem;
             border-radius: 16px;
             margin-bottom: 2rem;
             text-align: center;
         }
 
+        .setup-banner.hidden {
+            display: none;
+        }
+
         .setup-banner h3 {
             margin-bottom: 1rem;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
         }
 
         .setup-banner input {
-            padding: 0.75rem 1rem;
+            padding: 1rem;
             border-radius: 8px;
             border: none;
             width: 100%;
-            max-width: 600px;
+            max-width: 700px;
             font-size: 1rem;
             margin-bottom: 1rem;
         }
@@ -92,17 +84,11 @@
             background: white;
             color: #667eea;
             border: none;
-            padding: 0.75rem 2rem;
+            padding: 1rem 3rem;
             border-radius: 8px;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 1.1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .setup-banner button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
         .controls {
@@ -188,18 +174,6 @@
             border-radius: 24px;
             padding: 2.5rem;
             box-shadow: 0 8px 40px rgba(0,0,0,0.1);
-            animation: fadeInUp 0.8s ease-out 0.2s backwards;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .team-member {
@@ -284,7 +258,6 @@
             background: white;
             border-radius: 10px;
             margin-bottom: 0.75rem;
-            transition: all 0.3s ease;
         }
 
         .action-input {
@@ -293,12 +266,6 @@
             border-radius: 8px;
             font-size: 0.95rem;
             font-family: 'DM Sans', sans-serif;
-            transition: all 0.3s ease;
-        }
-
-        .action-input:focus {
-            outline: none;
-            border-color: var(--accent);
         }
 
         .status-selector {
@@ -314,14 +281,8 @@
             font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
             font-family: 'DM Sans', sans-serif;
             text-transform: uppercase;
-            letter-spacing: 0.03em;
-        }
-
-        .status-btn:hover {
-            border-color: var(--text-secondary);
         }
 
         .status-btn.active.done {
@@ -381,7 +342,6 @@
             letter-spacing: 0.1em;
             margin-bottom: 1rem;
             opacity: 0.8;
-            font-weight: 500;
         }
 
         .score-display {
@@ -408,13 +368,8 @@
         }
 
         .info-box p {
-            color: var(--text);
             line-height: 1.6;
             margin-bottom: 0.5rem;
-        }
-
-        .info-box strong {
-            color: var(--primary);
         }
 
         .team-grid {
@@ -441,7 +396,6 @@
         .team-member-name {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--primary);
         }
 
         .save-indicator {
@@ -463,66 +417,13 @@
             opacity: 1;
         }
 
-        .loading {
-            text-align: center;
-            padding: 3rem;
-            color: var(--text-secondary);
-        }
-
-        .spinner {
-            border: 4px solid var(--border);
-            border-top: 4px solid var(--accent);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            .action-item {
-                grid-template-columns: 1fr;
-                gap: 0.75rem;
-            }
-
-            .status-selector {
-                justify-content: stretch;
-            }
-
-            .status-btn {
-                flex: 1;
-                padding: 0.6rem 0.5rem;
-                font-size: 0.75rem;
-            }
-
-            .actions-list {
-                margin-left: 0;
-            }
-
-            .goal-header {
-                flex-wrap: wrap;
-            }
-
-            .goal-input {
-                width: 100%;
-            }
-
-            .scorecard {
-                padding: 1.5rem;
-            }
-
-            .score-display {
-                font-size: 3.5rem;
-            }
+            h1 { font-size: 2rem; }
+            .action-item { grid-template-columns: 1fr; }
+            .status-btn { flex: 1; padding: 0.6rem 0.5rem; font-size: 0.75rem; }
+            .actions-list { margin-left: 0; }
+            .scorecard { padding: 1.5rem; }
+            .score-display { font-size: 3.5rem; }
         }
     </style>
 </head>
@@ -551,11 +452,12 @@
             </div>
         </div>
 
-        <div id="setupSection" class="setup-banner">
-            <h3>Enter Your Web App URL:</h3>
-            <input type="text" id="webAppUrl" placeholder="https://script.google.com/macros/s/YOUR_ID/exec">
+        <div class="setup-banner" id="setupBanner">
+            <h3>🔗 Connect to Google Sheets</h3>
+            <p style="margin-bottom: 1rem;">Paste your Google Apps Script Web App URL to sync data:</p>
+            <input type="text" id="webAppUrl" placeholder="https://script.google.com/macros/s/YOUR_ID/exec" value="">
             <br>
-            <button onclick="saveWebAppUrl()">Save & Start Using</button>
+            <button onclick="saveWebAppUrl()">Save & Connect</button>
         </div>
 
         <div class="tab-buttons">
@@ -565,8 +467,8 @@
 
         <div id="scorecard-view" class="view-section active">
             <div class="info-box">
-                <p><strong>The 12 Week Year</strong> is a system that redefines your year as 12 weeks, creating urgency and focus to achieve more in less time.</p>
-                <p><strong>How it works:</strong> Enter your name, list your 5 goals, add weekly actions, and mark them as Done, Partially Done, or Not Done. Your data syncs to the team's Google Sheet automatically!</p>
+                <p><strong>The 12 Week Year:</strong> Redefine your year as 12 weeks to create urgency and maximize execution.</p>
+                <p><strong>How to use:</strong> Enter your name, list 5 goals, add weekly actions, mark as Done/Partial/Not Done. Score updates automatically!</p>
             </div>
 
             <div class="scorecard">
@@ -574,12 +476,12 @@
                     <input type="text" id="memberName" placeholder="Enter your name..." onchange="saveName()">
                 </div>
 
-                <div class="goals-section" id="goalsContainer"></div>
+                <div id="goalsContainer"></div>
 
                 <div class="overall-score">
                     <h2>Weekly Execution Score</h2>
                     <div class="score-display" id="overallScore">0%</div>
-                    <div class="score-message" id="scoreMessage">Complete your weekly actions to calculate your score!</div>
+                    <div class="score-message" id="scoreMessage">Complete your actions to calculate score!</div>
                 </div>
             </div>
         </div>
@@ -587,12 +489,7 @@
         <div id="team-view" class="view-section">
             <div class="scorecard">
                 <h2 style="margin-bottom: 2rem; font-size: 1.8rem;">Team Progress - Week <span id="teamWeekDisplay">1</span></h2>
-                <div id="teamContainer" class="team-grid">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                        <p>Loading team data...</p>
-                    </div>
-                </div>
+                <div id="teamContainer" class="team-grid"></div>
             </div>
         </div>
     </div>
@@ -602,31 +499,17 @@
     <script>
         let currentWeek = 1;
         let currentUser = '';
-        let webAppUrl = '';
-
-        function initApp() {
-            webAppUrl = localStorage.getItem('webAppUrl') || '';
-            
-            if (!webAppUrl) {
-                document.getElementById('setupSection').style.display = 'block';
-            } else {
-                document.getElementById('setupSection').style.display = 'none';
-            }
-            
-            loadUserName();
-            initializeScorecard();
-            loadWeekData();
-        }
+        let webAppUrl = localStorage.getItem('webAppUrl') || '';
 
         function saveWebAppUrl() {
             const url = document.getElementById('webAppUrl').value.trim();
             if (url) {
                 localStorage.setItem('webAppUrl', url);
                 webAppUrl = url;
-                document.getElementById('setupSection').style.display = 'none';
-                alert('✅ Setup complete! You can now start using the tracker.');
+                document.getElementById('setupBanner').classList.add('hidden');
+                alert('✅ Connected! Your data will now sync to Google Sheets.');
             } else {
-                alert('Please enter a valid Web App URL');
+                alert('Please enter your Web App URL');
             }
         }
 
@@ -635,40 +518,28 @@
             localStorage.setItem('12week_userName', currentUser);
         }
 
-        function loadUserName() {
-            currentUser = localStorage.getItem('12week_userName') || '';
-            document.getElementById('memberName').value = currentUser;
-        }
-
         function changeWeek() {
             saveCurrentWeek();
             currentWeek = parseInt(document.getElementById('weekNumber').value);
             loadWeekData();
-            updateTeamView();
             document.getElementById('teamWeekDisplay').textContent = currentWeek;
         }
 
         function switchTab(tab) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-
             document.querySelectorAll('.view-section').forEach(view => view.classList.remove('active'));
             document.getElementById(tab + '-view').classList.add('active');
-
-            if (tab === 'team') {
-                updateTeamView();
-            }
+            if (tab === 'team') updateTeamView();
         }
 
         function initializeScorecard() {
             const container = document.getElementById('goalsContainer');
             container.innerHTML = '';
-            
             for (let i = 1; i <= 5; i++) {
                 const goalBlock = document.createElement('div');
                 goalBlock.className = 'goal-block';
                 goalBlock.id = `goal-${i}`;
-                
                 goalBlock.innerHTML = `
                     <div class="goal-header">
                         <div class="goal-number">${i}</div>
@@ -677,12 +548,8 @@
                     </div>
                     <div class="actions-list" id="actions-${i}"></div>
                 `;
-                
                 container.appendChild(goalBlock);
-                
-                for (let j = 1; j <= 5; j++) {
-                    addActionItem(i, j);
-                }
+                for (let j = 1; j <= 5; j++) addActionItem(i, j);
             }
         }
 
@@ -691,7 +558,6 @@
             const actionItem = document.createElement('div');
             actionItem.className = 'action-item';
             actionItem.id = `action-${goalNum}-${actionNum}`;
-            
             actionItem.innerHTML = `
                 <input type="text" class="action-input" placeholder="Weekly Action ${actionNum}..." onchange="saveCurrentWeek()">
                 <div class="status-selector">
@@ -700,186 +566,107 @@
                     <button class="status-btn" data-status="not-done" onclick="selectStatus(${goalNum}, ${actionNum}, 'not-done')">Not Done</button>
                 </div>
             `;
-            
             actionsList.appendChild(actionItem);
         }
 
         function selectStatus(goalNum, actionNum, status) {
             const actionItem = document.getElementById(`action-${goalNum}-${actionNum}`);
-            const buttons = actionItem.querySelectorAll('.status-btn');
-            
-            buttons.forEach(btn => {
+            actionItem.querySelectorAll('.status-btn').forEach(btn => {
                 btn.classList.remove('active', 'done', 'partial', 'not-done');
             });
-            
-            const selectedBtn = actionItem.querySelector(`[data-status="${status}"]`);
-            selectedBtn.classList.add('active', status);
-            
+            actionItem.querySelector(`[data-status="${status}"]`).classList.add('active', status);
             actionItem.dataset.status = status;
-            
             calculateScore();
             saveCurrentWeek();
         }
 
         function calculateScore() {
-            let totalPoints = 0;
-            let totalPossible = 0;
-
+            let totalPoints = 0, totalPossible = 0;
             for (let i = 1; i <= 5; i++) {
-                const actionsContainer = document.getElementById(`actions-${i}`);
-                const actions = actionsContainer.querySelectorAll('.action-item');
+                const actions = document.getElementById(`actions-${i}`).querySelectorAll('.action-item');
                 const goalScoreElement = document.getElementById(`goal-${i}-score`);
-                
-                let goalPoints = 0;
-                let goalPossible = 0;
-                let hasAnyActions = false;
-
+                let goalPoints = 0, goalPossible = 0, hasAnyActions = false;
                 actions.forEach(action => {
                     const actionInput = action.querySelector('.action-input');
                     const status = action.dataset.status;
-                    
                     if (actionInput.value.trim() !== '') {
                         hasAnyActions = true;
                         goalPossible += 1;
-                        
-                        if (status === 'done') {
-                            goalPoints += 1;
-                        } else if (status === 'partial') {
-                            goalPoints += 0.5;
-                        }
+                        if (status === 'done') goalPoints += 1;
+                        else if (status === 'partial') goalPoints += 0.5;
                     }
                 });
-
                 if (hasAnyActions && goalPossible > 0) {
                     const goalPercent = (goalPoints / goalPossible) * 100;
                     goalScoreElement.textContent = Math.round(goalPercent) + '%';
                     goalScoreElement.style.display = 'inline-block';
-                    
                     goalScoreElement.classList.remove('high', 'medium', 'low');
-                    if (goalPercent >= 85) {
-                        goalScoreElement.classList.add('high');
-                    } else if (goalPercent >= 70) {
-                        goalScoreElement.classList.add('medium');
-                    } else {
-                        goalScoreElement.classList.add('low');
-                    }
-                    
+                    if (goalPercent >= 85) goalScoreElement.classList.add('high');
+                    else if (goalPercent >= 70) goalScoreElement.classList.add('medium');
+                    else goalScoreElement.classList.add('low');
                     totalPoints += goalPoints;
                     totalPossible += goalPossible;
                 } else {
                     goalScoreElement.style.display = 'none';
                 }
             }
-
-            const overallScoreElement = document.getElementById('overallScore');
+            const overallScore = totalPossible > 0 ? (totalPoints / totalPossible) * 100 : 0;
+            document.getElementById('overallScore').textContent = Math.round(overallScore) + '%';
             const messageElement = document.getElementById('scoreMessage');
-            
-            if (totalPossible > 0) {
-                const overallScore = (totalPoints / totalPossible) * 100;
-                overallScoreElement.textContent = Math.round(overallScore) + '%';
-                
-                if (overallScore >= 85) {
-                    messageElement.textContent = '🔥 Outstanding execution! You\'re on track for your 12-week goals!';
-                } else if (overallScore >= 70) {
-                    messageElement.textContent = '👍 Good work! Push harder to reach the 85% threshold.';
-                } else if (overallScore >= 50) {
-                    messageElement.textContent = '⚠️ Below target. Review and adjust your weekly actions.';
-                } else {
-                    messageElement.textContent = '🚨 Critical. Your 12-week goals are at risk. Take action now!';
-                }
-
-                return Math.round(overallScore);
-            } else {
-                overallScoreElement.textContent = '0%';
-                messageElement.textContent = 'Complete your weekly actions to calculate your score!';
-                return 0;
-            }
+            if (overallScore >= 85) messageElement.textContent = '🔥 Outstanding! On track!';
+            else if (overallScore >= 70) messageElement.textContent = '👍 Good! Push to 85%+';
+            else if (overallScore >= 50) messageElement.textContent = '⚠️ Below target';
+            else if (overallScore > 0) messageElement.textContent = '🚨 Critical!';
+            else messageElement.textContent = 'Complete your actions to calculate score!';
+            return Math.round(overallScore);
         }
 
         async function saveCurrentWeek() {
-            if (!currentUser) {
-                currentUser = document.getElementById('memberName').value || 'Anonymous';
-            }
-
-            const weekData = {
-                userName: currentUser,
-                week: currentWeek,
-                goals: [],
-                score: calculateScore(),
-                timestamp: new Date().toISOString()
-            };
-
+            if (!currentUser) currentUser = document.getElementById('memberName').value || 'Anonymous';
+            const weekData = {userName: currentUser, week: currentWeek, goals: [], score: calculateScore(), timestamp: new Date().toISOString()};
             for (let i = 1; i <= 5; i++) {
                 const goalInput = document.querySelector(`#goal-${i} .goal-input`);
-                const actionsContainer = document.getElementById(`actions-${i}`);
-                const actions = actionsContainer.querySelectorAll('.action-item');
-                
-                const goalData = {
-                    text: goalInput.value,
-                    actions: []
-                };
-
-                actions.forEach((action, index) => {
-                    const actionInput = action.querySelector('.action-input');
-                    const status = action.dataset.status || '';
-                    
+                const actions = document.getElementById(`actions-${i}`).querySelectorAll('.action-item');
+                const goalData = {text: goalInput.value, actions: []};
+                actions.forEach(action => {
                     goalData.actions.push({
-                        text: actionInput.value,
-                        status: status
+                        text: action.querySelector('.action-input').value,
+                        status: action.dataset.status || ''
                     });
                 });
-
                 weekData.goals.push(goalData);
             }
-
             localStorage.setItem(`12week_${currentUser}_week${currentWeek}`, JSON.stringify(weekData));
-            
             if (webAppUrl) {
                 try {
-                    await fetch(webAppUrl, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(weekData)
-                    });
+                    await fetch(webAppUrl, {method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(weekData)});
                     showSaveIndicator();
                 } catch (error) {
-                    console.error('Error saving to Google Sheets:', error);
+                    console.error('Error:', error);
                 }
             }
         }
 
         function loadWeekData() {
             if (!currentUser) return;
-
             const savedData = localStorage.getItem(`12week_${currentUser}_week${currentWeek}`);
-            
             if (savedData) {
                 const weekData = JSON.parse(savedData);
-                
                 weekData.goals.forEach((goal, goalIndex) => {
                     const goalInput = document.querySelector(`#goal-${goalIndex + 1} .goal-input`);
                     if (goalInput) goalInput.value = goal.text;
-                    
                     goal.actions.forEach((action, actionIndex) => {
                         const actionItem = document.getElementById(`action-${goalIndex + 1}-${actionIndex + 1}`);
                         if (actionItem) {
-                            const actionInput = actionItem.querySelector('.action-input');
-                            actionInput.value = action.text;
-                            
+                            actionItem.querySelector('.action-input').value = action.text;
                             if (action.status) {
                                 actionItem.dataset.status = action.status;
                                 const btn = actionItem.querySelector(`[data-status="${action.status}"]`);
-                                if (btn) {
-                                    btn.classList.add('active', action.status);
-                                }
+                                if (btn) btn.classList.add('active', action.status);
                             }
                         }
                     });
                 });
-                
                 calculateScore();
             } else {
                 initializeScorecard();
@@ -888,32 +675,25 @@
 
         async function updateTeamView() {
             const container = document.getElementById('teamContainer');
-            container.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading team data...</p></div>';
-
             if (!webAppUrl) {
-                container.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">Please complete the setup to enable team view.</p>';
+                container.innerHTML = '<p style="text-align: center; padding: 2rem;">Connect to Google Sheets to see team data</p>';
                 return;
             }
-
+            container.innerHTML = '<p style="text-align: center; padding: 2rem;">Loading...</p>';
             try {
                 const response = await fetch(webAppUrl);
                 const allData = await response.json();
                 const weekData = allData.filter(entry => entry.week === currentWeek);
-                
                 container.innerHTML = '';
-
                 if (weekData.length === 0) {
-                    container.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">No team data for this week yet.</p>';
+                    container.innerHTML = '<p style="text-align: center; padding: 2rem;">No team data yet</p>';
                     return;
                 }
-
                 weekData.forEach(member => {
-                    const memberCard = document.createElement('div');
-                    memberCard.className = 'team-member-card';
-                    
                     const scoreClass = member.score >= 85 ? 'high' : member.score >= 70 ? 'medium' : 'low';
-                    
-                    memberCard.innerHTML = `
+                    const card = document.createElement('div');
+                    card.className = 'team-member-card';
+                    card.innerHTML = `
                         <div class="team-member-header">
                             <div class="team-member-name">${member.userName}</div>
                             <span class="goal-score ${scoreClass}">${member.score}%</span>
@@ -922,24 +702,28 @@
                             Last updated: ${new Date(member.timestamp).toLocaleString()}
                         </div>
                     `;
-                    
-                    container.appendChild(memberCard);
+                    container.appendChild(card);
                 });
             } catch (error) {
-                console.error('Error loading team data:', error);
-                container.innerHTML = '<p style="text-align: center; color: var(--danger); padding: 2rem;">Error loading team data. Please check your setup.</p>';
+                container.innerHTML = '<p style="text-align: center; color: var(--danger); padding: 2rem;">Error loading team data</p>';
             }
         }
 
         function showSaveIndicator() {
             const indicator = document.getElementById('saveIndicator');
             indicator.classList.add('show');
-            setTimeout(() => {
-                indicator.classList.remove('show');
-            }, 2000);
+            setTimeout(() => indicator.classList.remove('show'), 2000);
         }
 
-        initApp();
+        // Initialize
+        currentUser = localStorage.getItem('12week_userName') || '';
+        document.getElementById('memberName').value = currentUser;
+        if (webAppUrl) {
+            document.getElementById('webAppUrl').value = webAppUrl;
+            document.getElementById('setupBanner').classList.add('hidden');
+        }
+        initializeScorecard();
+        loadWeekData();
     </script>
 </body>
 </html>
