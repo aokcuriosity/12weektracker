@@ -64,6 +64,65 @@
             text-transform: uppercase;
         }
 
+        .setup-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .setup-banner h3 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .setup-banner input {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: none;
+            width: 100%;
+            max-width: 600px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .setup-banner button {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .setup-banner button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .setup-instructions {
+            background: #fffbf0;
+            border-left: 4px solid var(--warning);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .setup-instructions ol {
+            margin-left: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .setup-instructions li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
         .controls {
             display: flex;
             justify-content: center;
@@ -72,7 +131,7 @@
             margin-top: 1rem;
         }
 
-        .week-selector, .view-selector {
+        .week-selector {
             display: inline-flex;
             align-items: center;
             gap: 1rem;
@@ -82,7 +141,7 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
 
-        .week-selector label, .view-selector label {
+        .week-selector label {
             font-weight: 700;
             color: var(--text-secondary);
             font-size: 0.9rem;
@@ -90,7 +149,7 @@
             letter-spacing: 0.05em;
         }
 
-        .week-selector select, .view-selector select {
+        .week-selector select {
             font-family: 'DM Sans', sans-serif;
             font-size: 1.1rem;
             font-weight: 700;
@@ -107,6 +166,7 @@
             gap: 0.5rem;
             justify-content: center;
             margin-bottom: 2rem;
+            flex-wrap: wrap;
         }
 
         .tab-btn {
@@ -188,14 +248,7 @@
             border-radius: 16px;
             padding: 1.5rem;
             margin-bottom: 2rem;
-            animation: fadeInUp 0.6s ease-out backwards;
         }
-
-        .goal-block:nth-child(1) { animation-delay: 0.1s; }
-        .goal-block:nth-child(2) { animation-delay: 0.2s; }
-        .goal-block:nth-child(3) { animation-delay: 0.3s; }
-        .goal-block:nth-child(4) { animation-delay: 0.4s; }
-        .goal-block:nth-child(5) { animation-delay: 0.5s; }
 
         .goal-header {
             display: flex;
@@ -250,10 +303,6 @@
             border-radius: 10px;
             margin-bottom: 0.75rem;
             transition: all 0.3s ease;
-        }
-
-        .action-item:hover {
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
         .action-input {
@@ -342,7 +391,6 @@
             border-radius: 16px;
             text-align: center;
             color: white;
-            animation: fadeInUp 0.8s ease-out 0.4s backwards;
         }
 
         .overall-score h2 {
@@ -375,7 +423,6 @@
             padding: 1.5rem;
             border-radius: 8px;
             margin-bottom: 2rem;
-            animation: fadeInUp 0.8s ease-out 0.3s backwards;
         }
 
         .info-box p {
@@ -388,40 +435,6 @@
             color: var(--primary);
         }
 
-        /* History View Styles */
-        .history-grid {
-            display: grid;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .week-card {
-            background: var(--card);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-
-        .week-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .week-card-header h3 {
-            font-size: 1.2rem;
-            color: var(--primary);
-        }
-
-        .week-score-badge {
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        /* Team View Styles */
         .team-grid {
             display: grid;
             gap: 1.5rem;
@@ -449,74 +462,6 @@
             color: var(--primary);
         }
 
-        /* Chart Styles */
-        .chart-container {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-            margin-bottom: 2rem;
-        }
-
-        .chart-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-        }
-
-        .chart {
-            position: relative;
-            height: 300px;
-        }
-
-        .chart-bar-container {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-around;
-            height: 100%;
-            padding: 1rem 0;
-        }
-
-        .chart-bar {
-            flex: 1;
-            max-width: 60px;
-            margin: 0 0.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-        }
-
-        .bar {
-            width: 100%;
-            background: linear-gradient(to top, var(--accent), #ff8c5a);
-            border-radius: 8px 8px 0 0;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .bar:hover {
-            opacity: 0.8;
-        }
-
-        .bar-label {
-            margin-top: 0.5rem;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
-
-        .bar-value {
-            position: absolute;
-            top: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-weight: 700;
-            font-size: 0.9rem;
-            color: var(--primary);
-        }
-
         .save-indicator {
             position: fixed;
             bottom: 2rem;
@@ -534,6 +479,27 @@
 
         .save-indicator.show {
             opacity: 1;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+
+        .spinner {
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--accent);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @media (max-width: 768px) {
@@ -575,10 +541,6 @@
             .score-display {
                 font-size: 3.5rem;
             }
-
-            .controls {
-                flex-direction: column;
-            }
         }
     </style>
 </head>
@@ -607,18 +569,104 @@
             </div>
         </div>
 
+        <!-- Setup Instructions (only shown if not configured) -->
+        <div id="setupSection" class="setup-instructions" style="display: none;">
+            <h3 style="margin-bottom: 1rem;">📋 One-Time Setup Required</h3>
+            <p><strong>To enable real-time team syncing, follow these steps:</strong></p>
+            <ol>
+                <li>Go to your Google Sheet</li>
+                <li>Click <strong>Extensions → Apps Script</strong></li>
+                <li>Delete any code in the editor and paste the code below</li>
+                <li>Click <strong>Save</strong> (disk icon)</li>
+                <li>Click <strong>Deploy → New deployment</strong></li>
+                <li>Click the gear icon next to "Select type" and choose <strong>Web app</strong></li>
+                <li>Set "Who has access" to <strong>Anyone</strong></li>
+                <li>Click <strong>Deploy</strong></li>
+                <li>Copy the Web App URL and paste it below</li>
+            </ol>
+            
+            <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                <h4 style="margin-bottom: 0.5rem;">Apps Script Code (Copy This):</h4>
+                <pre style="overflow-x: auto; padding: 1rem; background: white; border-radius: 4px; font-size: 0.85rem;">
+function doPost(e) {
+  try {
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    const data = JSON.parse(e.postData.contents);
+    
+    // Find or create row for this user/week
+    const allData = sheet.getDataRange().getValues();
+    let rowIndex = -1;
+    
+    for (let i = 1; i < allData.length; i++) {
+      if (allData[i][0] == data.week && allData[i][1] == data.userName) {
+        rowIndex = i + 1;
+        break;
+      }
+    }
+    
+    if (rowIndex === -1) {
+      sheet.appendRow([
+        data.week,
+        data.userName,
+        data.score,
+        JSON.stringify(data.goals),
+        new Date()
+      ]);
+    } else {
+      sheet.getRange(rowIndex, 3).setValue(data.score);
+      sheet.getRange(rowIndex, 4).setValue(JSON.stringify(data.goals));
+      sheet.getRange(rowIndex, 5).setValue(new Date());
+    }
+    
+    return ContentService.createTextOutput(JSON.stringify({success: true}))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch(error) {
+    return ContentService.createTextOutput(JSON.stringify({success: false, error: error.toString()}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const data = sheet.getDataRange().getValues();
+  
+  const results = [];
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][0]) {
+      results.push({
+        week: data[i][0],
+        userName: data[i][1],
+        score: data[i][2],
+        goals: JSON.parse(data[i][3] || '[]'),
+        timestamp: data[i][4]
+      });
+    }
+  }
+  
+  return ContentService.createTextOutput(JSON.stringify(results))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+                </pre>
+            </div>
+            
+            <div class="setup-banner">
+                <h3>Enter Your Web App URL:</h3>
+                <input type="text" id="webAppUrl" placeholder="https://script.google.com/macros/s/YOUR_ID/exec">
+                <br>
+                <button onclick="saveWebAppUrl()">Save & Start Using</button>
+            </div>
+        </div>
+
         <div class="tab-buttons">
             <button class="tab-btn active" onclick="switchTab('scorecard')">My Scorecard</button>
-            <button class="tab-btn" onclick="switchTab('history')">My Progress</button>
             <button class="tab-btn" onclick="switchTab('team')">Team View</button>
-            <button class="tab-btn" onclick="switchTab('charts')">Charts</button>
         </div>
 
         <!-- Scorecard View -->
         <div id="scorecard-view" class="view-section active">
             <div class="info-box">
-                <p><strong>The 12 Week Year</strong> is a system that redefines your year as 12 weeks, creating urgency and focus to achieve more in less time. By breaking down annual goals into 12-week sprints, you eliminate procrastination and maximize execution.</p>
-                <p><strong>How to fill out this scorecard:</strong> Enter your name, list your 5 goals for the 12-week period, add up to 5 weekly actions under each goal, and mark each action as Done, Partially Done, or Not Done. Your execution score updates automatically and saves locally.</p>
+                <p><strong>The 12 Week Year</strong> is a system that redefines your year as 12 weeks, creating urgency and focus to achieve more in less time.</p>
+                <p><strong>How it works:</strong> Enter your name, list your 5 goals, add weekly actions, and mark them as Done, Partially Done, or Not Done. Your data syncs to the team's Google Sheet automatically!</p>
             </div>
 
             <div class="scorecard">
@@ -636,57 +684,55 @@
             </div>
         </div>
 
-        <!-- History View -->
-        <div id="history-view" class="view-section">
-            <div class="scorecard">
-                <h2 style="margin-bottom: 2rem; font-size: 1.8rem;">My 12-Week Progress</h2>
-                <div id="historyContainer" class="history-grid"></div>
-            </div>
-        </div>
-
         <!-- Team View -->
         <div id="team-view" class="view-section">
             <div class="scorecard">
                 <h2 style="margin-bottom: 2rem; font-size: 1.8rem;">Team Progress - Week <span id="teamWeekDisplay">1</span></h2>
-                <div id="teamContainer" class="team-grid"></div>
-            </div>
-        </div>
-
-        <!-- Charts View -->
-        <div id="charts-view" class="view-section">
-            <div class="chart-container">
-                <h3 class="chart-title">My Execution Score Over 12 Weeks</h3>
-                <div class="chart">
-                    <div class="chart-bar-container" id="myChart"></div>
-                </div>
-            </div>
-            
-            <div class="chart-container">
-                <h3 class="chart-title">Team Average by Week</h3>
-                <div class="chart">
-                    <div class="chart-bar-container" id="teamChart"></div>
+                <div id="teamContainer" class="team-grid">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading team data...</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="save-indicator" id="saveIndicator">✓ Saved</div>
+    <div class="save-indicator" id="saveIndicator">✓ Synced to Google Sheets</div>
 
     <script>
         let currentWeek = 1;
         let currentUser = '';
+        let webAppUrl = '';
 
-        // Initialize the app
+        // Initialize
         function initApp() {
+            webAppUrl = localStorage.getItem('webAppUrl') || '';
+            
+            if (!webAppUrl) {
+                document.getElementById('setupSection').style.display = 'block';
+            }
+            
             loadUserName();
             initializeScorecard();
             loadWeekData();
         }
 
+        function saveWebAppUrl() {
+            const url = document.getElementById('webAppUrl').value.trim();
+            if (url) {
+                localStorage.setItem('webAppUrl', url);
+                webAppUrl = url;
+                document.getElementById('setupSection').style.display = 'none';
+                alert('✅ Setup complete! You can now start using the tracker.');
+            } else {
+                alert('Please enter a valid Web App URL');
+            }
+        }
+
         function saveName() {
             currentUser = document.getElementById('memberName').value;
             localStorage.setItem('12week_userName', currentUser);
-            showSaveIndicator();
         }
 
         function loadUserName() {
@@ -699,26 +745,18 @@
             currentWeek = parseInt(document.getElementById('weekNumber').value);
             loadWeekData();
             updateTeamView();
-            updateCharts();
             document.getElementById('teamWeekDisplay').textContent = currentWeek;
         }
 
         function switchTab(tab) {
-            // Update tab buttons
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
 
-            // Update views
             document.querySelectorAll('.view-section').forEach(view => view.classList.remove('active'));
             document.getElementById(tab + '-view').classList.add('active');
 
-            // Load data for specific views
-            if (tab === 'history') {
-                loadHistoryView();
-            } else if (tab === 'team') {
+            if (tab === 'team') {
                 updateTeamView();
-            } else if (tab === 'charts') {
-                updateCharts();
             }
         }
 
@@ -858,7 +896,7 @@
             }
         }
 
-        function saveCurrentWeek() {
+        async function saveCurrentWeek() {
             if (!currentUser) {
                 currentUser = document.getElementById('memberName').value || 'Anonymous';
             }
@@ -894,27 +932,25 @@
                 weekData.goals.push(goalData);
             }
 
-            // Save personal data
+            // Save locally
             localStorage.setItem(`12week_${currentUser}_week${currentWeek}`, JSON.stringify(weekData));
             
-            // Add to team data
-            saveToTeamData(weekData);
-            
-            showSaveIndicator();
-        }
-
-        function saveToTeamData(weekData) {
-            let teamData = JSON.parse(localStorage.getItem('12week_teamData') || '[]');
-            
-            // Remove existing entry for this user/week
-            teamData = teamData.filter(entry => 
-                !(entry.userName === weekData.userName && entry.week === weekData.week)
-            );
-            
-            // Add new entry
-            teamData.push(weekData);
-            
-            localStorage.setItem('12week_teamData', JSON.stringify(teamData));
+            // Save to Google Sheets
+            if (webAppUrl) {
+                try {
+                    await fetch(webAppUrl, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(weekData)
+                    });
+                    showSaveIndicator();
+                } catch (error) {
+                    console.error('Error saving to Google Sheets:', error);
+                }
+            }
         }
 
         function loadWeekData() {
@@ -948,125 +984,53 @@
                 
                 calculateScore();
             } else {
-                // Clear the form
                 initializeScorecard();
             }
         }
 
-        function loadHistoryView() {
-            const container = document.getElementById('historyContainer');
-            container.innerHTML = '';
-
-            for (let week = 1; week <= 12; week++) {
-                const savedData = localStorage.getItem(`12week_${currentUser}_week${week}`);
-                
-                if (savedData) {
-                    const weekData = JSON.parse(savedData);
-                    const weekCard = document.createElement('div');
-                    weekCard.className = 'week-card';
-                    
-                    const scoreClass = weekData.score >= 85 ? 'high' : weekData.score >= 70 ? 'medium' : 'low';
-                    
-                    weekCard.innerHTML = `
-                        <div class="week-card-header">
-                            <h3>Week ${week}</h3>
-                            <span class="week-score-badge goal-score ${scoreClass}">${weekData.score}%</span>
-                        </div>
-                        <div style="font-size: 0.9rem; color: var(--text-secondary);">
-                            ${new Date(weekData.timestamp).toLocaleDateString()}
-                        </div>
-                    `;
-                    
-                    container.appendChild(weekCard);
-                }
-            }
-
-            if (container.innerHTML === '') {
-                container.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">No history yet. Complete some weeks to see your progress!</p>';
-            }
-        }
-
-        function updateTeamView() {
+        async function updateTeamView() {
             const container = document.getElementById('teamContainer');
-            container.innerHTML = '';
-            
-            const teamData = JSON.parse(localStorage.getItem('12week_teamData') || '[]');
-            const weekData = teamData.filter(entry => entry.week === currentWeek);
-            
-            if (weekData.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">No team data for this week yet.</p>';
+            container.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading team data...</p></div>';
+
+            if (!webAppUrl) {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">Please complete the setup to enable team view.</p>';
                 return;
             }
 
-            weekData.forEach(member => {
-                const memberCard = document.createElement('div');
-                memberCard.className = 'team-member-card';
+            try {
+                const response = await fetch(webAppUrl);
+                const allData = await response.json();
+                const weekData = allData.filter(entry => entry.week === currentWeek);
                 
-                const scoreClass = member.score >= 85 ? 'high' : member.score >= 70 ? 'medium' : 'low';
-                
-                memberCard.innerHTML = `
-                    <div class="team-member-header">
-                        <div class="team-member-name">${member.userName}</div>
-                        <span class="goal-score ${scoreClass}">${member.score}%</span>
-                    </div>
-                    <div style="font-size: 0.9rem; color: var(--text-secondary);">
-                        Last updated: ${new Date(member.timestamp).toLocaleString()}
-                    </div>
-                `;
-                
-                container.appendChild(memberCard);
-            });
-        }
+                container.innerHTML = '';
 
-        function updateCharts() {
-            // My chart
-            const myChartContainer = document.getElementById('myChart');
-            myChartContainer.innerHTML = '';
-            
-            const myScores = [];
-            for (let week = 1; week <= 12; week++) {
-                const savedData = localStorage.getItem(`12week_${currentUser}_week${week}`);
-                myScores.push(savedData ? JSON.parse(savedData).score : 0);
-            }
-            
-            createBarChart(myChartContainer, myScores);
-            
-            // Team chart
-            const teamChartContainer = document.getElementById('teamChart');
-            teamChartContainer.innerHTML = '';
-            
-            const teamData = JSON.parse(localStorage.getItem('12week_teamData') || '[]');
-            const teamScores = [];
-            
-            for (let week = 1; week <= 12; week++) {
-                const weekData = teamData.filter(entry => entry.week === week);
-                if (weekData.length > 0) {
-                    const avg = weekData.reduce((sum, entry) => sum + entry.score, 0) / weekData.length;
-                    teamScores.push(Math.round(avg));
-                } else {
-                    teamScores.push(0);
+                if (weekData.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">No team data for this week yet.</p>';
+                    return;
                 }
-            }
-            
-            createBarChart(teamChartContainer, teamScores);
-        }
 
-        function createBarChart(container, scores) {
-            scores.forEach((score, index) => {
-                const barDiv = document.createElement('div');
-                barDiv.className = 'chart-bar';
-                
-                const height = score > 0 ? (score / 100) * 250 : 5;
-                
-                barDiv.innerHTML = `
-                    <div class="bar" style="height: ${height}px;">
-                        ${score > 0 ? `<div class="bar-value">${score}%</div>` : ''}
-                    </div>
-                    <div class="bar-label">W${index + 1}</div>
-                `;
-                
-                container.appendChild(barDiv);
-            });
+                weekData.forEach(member => {
+                    const memberCard = document.createElement('div');
+                    memberCard.className = 'team-member-card';
+                    
+                    const scoreClass = member.score >= 85 ? 'high' : member.score >= 70 ? 'medium' : 'low';
+                    
+                    memberCard.innerHTML = `
+                        <div class="team-member-header">
+                            <div class="team-member-name">${member.userName}</div>
+                            <span class="goal-score ${scoreClass}">${member.score}%</span>
+                        </div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                            Last updated: ${new Date(member.timestamp).toLocaleString()}
+                        </div>
+                    `;
+                    
+                    container.appendChild(memberCard);
+                });
+            } catch (error) {
+                console.error('Error loading team data:', error);
+                container.innerHTML = '<p style="text-align: center; color: var(--danger); padding: 2rem;">Error loading team data. Please check your setup.</p>';
+            }
         }
 
         function showSaveIndicator() {
