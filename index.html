@@ -105,24 +105,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
-        .setup-instructions {
-            background: #fffbf0;
-            border-left: 4px solid var(--warning);
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-        }
-
-        .setup-instructions ol {
-            margin-left: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        .setup-instructions li {
-            margin-bottom: 0.5rem;
-            line-height: 1.6;
-        }
-
         .controls {
             display: flex;
             justify-content: center;
@@ -569,92 +551,11 @@
             </div>
         </div>
 
-        <!-- Setup Instructions (only shown if not configured) -->
-        <div id="setupSection" class="setup-instructions" style="display: none;">
-            <h3 style="margin-bottom: 1rem;">📋 One-Time Setup Required</h3>
-            <p><strong>To enable real-time team syncing, follow these steps:</strong></p>
-            <ol>
-                <li>Go to your Google Sheet</li>
-                <li>Click <strong>Extensions → Apps Script</strong></li>
-                <li>Delete any code in the editor and paste the code below</li>
-                <li>Click <strong>Save</strong> (disk icon)</li>
-                <li>Click <strong>Deploy → New deployment</strong></li>
-                <li>Click the gear icon next to "Select type" and choose <strong>Web app</strong></li>
-                <li>Set "Who has access" to <strong>Anyone</strong></li>
-                <li>Click <strong>Deploy</strong></li>
-                <li>Copy the Web App URL and paste it below</li>
-            </ol>
-            
-            <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
-                <h4 style="margin-bottom: 0.5rem;">Apps Script Code (Copy This):</h4>
-                <pre style="overflow-x: auto; padding: 1rem; background: white; border-radius: 4px; font-size: 0.85rem;">
-function doPost(e) {
-  try {
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    const data = JSON.parse(e.postData.contents);
-    
-    // Find or create row for this user/week
-    const allData = sheet.getDataRange().getValues();
-    let rowIndex = -1;
-    
-    for (let i = 1; i < allData.length; i++) {
-      if (allData[i][0] == data.week && allData[i][1] == data.userName) {
-        rowIndex = i + 1;
-        break;
-      }
-    }
-    
-    if (rowIndex === -1) {
-      sheet.appendRow([
-        data.week,
-        data.userName,
-        data.score,
-        JSON.stringify(data.goals),
-        new Date()
-      ]);
-    } else {
-      sheet.getRange(rowIndex, 3).setValue(data.score);
-      sheet.getRange(rowIndex, 4).setValue(JSON.stringify(data.goals));
-      sheet.getRange(rowIndex, 5).setValue(new Date());
-    }
-    
-    return ContentService.createTextOutput(JSON.stringify({success: true}))
-      .setMimeType(ContentService.MimeType.JSON);
-  } catch(error) {
-    return ContentService.createTextOutput(JSON.stringify({success: false, error: error.toString()}))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-}
-
-function doGet(e) {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  const data = sheet.getDataRange().getValues();
-  
-  const results = [];
-  for (let i = 1; i < data.length; i++) {
-    if (data[i][0]) {
-      results.push({
-        week: data[i][0],
-        userName: data[i][1],
-        score: data[i][2],
-        goals: JSON.parse(data[i][3] || '[]'),
-        timestamp: data[i][4]
-      });
-    }
-  }
-  
-  return ContentService.createTextOutput(JSON.stringify(results))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-                </pre>
-            </div>
-            
-            <div class="setup-banner">
-                <h3>Enter Your Web App URL:</h3>
-                <input type="text" id="webAppUrl" placeholder="https://script.google.com/macros/s/YOUR_ID/exec">
-                <br>
-                <button onclick="saveWebAppUrl()">Save & Start Using</button>
-            </div>
+        <div id="setupSection" class="setup-banner">
+            <h3>Enter Your Web App URL:</h3>
+            <input type="text" id="webAppUrl" placeholder="https://script.google.com/macros/s/YOUR_ID/exec">
+            <br>
+            <button onclick="saveWebAppUrl()">Save & Start Using</button>
         </div>
 
         <div class="tab-buttons">
@@ -662,7 +563,6 @@ function doGet(e) {
             <button class="tab-btn" onclick="switchTab('team')">Team View</button>
         </div>
 
-        <!-- Scorecard View -->
         <div id="scorecard-view" class="view-section active">
             <div class="info-box">
                 <p><strong>The 12 Week Year</strong> is a system that redefines your year as 12 weeks, creating urgency and focus to achieve more in less time.</p>
@@ -684,7 +584,6 @@ function doGet(e) {
             </div>
         </div>
 
-        <!-- Team View -->
         <div id="team-view" class="view-section">
             <div class="scorecard">
                 <h2 style="margin-bottom: 2rem; font-size: 1.8rem;">Team Progress - Week <span id="teamWeekDisplay">1</span></h2>
@@ -705,12 +604,13 @@ function doGet(e) {
         let currentUser = '';
         let webAppUrl = '';
 
-        // Initialize
         function initApp() {
             webAppUrl = localStorage.getItem('webAppUrl') || '';
             
             if (!webAppUrl) {
                 document.getElementById('setupSection').style.display = 'block';
+            } else {
+                document.getElementById('setupSection').style.display = 'none';
             }
             
             loadUserName();
@@ -932,10 +832,8 @@ function doGet(e) {
                 weekData.goals.push(goalData);
             }
 
-            // Save locally
             localStorage.setItem(`12week_${currentUser}_week${currentWeek}`, JSON.stringify(weekData));
             
-            // Save to Google Sheets
             if (webAppUrl) {
                 try {
                     await fetch(webAppUrl, {
@@ -1041,7 +939,6 @@ function doGet(e) {
             }, 2000);
         }
 
-        // Initialize on page load
         initApp();
     </script>
 </body>
