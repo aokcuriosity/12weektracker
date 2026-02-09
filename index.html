@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12 Week Year - Team Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0a0a0a;
+            --accent: #ff6b35;
+            --success: #06d6a0;
+            --warning: #ffd23f;
+            --danger: #ef476f;
+            --bg: #fafafa;
+            --card: #ffffff;
+            --text: #1a1a1a;
+            --text-secondary: #666666;
+            --border: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .week-selector, .view-selector {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--card);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .week-selector label, .view-selector label {
+            font-weight: 700;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .week-selector select, .view-selector select {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            background: transparent;
+            color: var(--accent);
+            cursor: pointer;
+            outline: none;
+            padding: 0.5rem;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            background: var(--card);
+            border: 2px solid var(--border);
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tab-btn:hover {
+            border-color: var(--accent);
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .view-section {
+            display: none;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        .scorecard {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .team-member {
+            margin-bottom: 1.5rem;
+        }
+
+        .team-member input[type="text"] {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.3s ease;
+            background: var(--bg);
+        }
+
+        .team-member input[type="text"]:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: white;
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
+        }
+
+        .goal-block {
+            background: var(--bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .goal-block:nth-child(1) { animation-delay: 0.1s; }
+        .goal-block:nth-child(2) { animation-delay: 0.2s; }
+        .goal-block:nth-child(3) { animation-delay: 0.3s; }
+        .goal-block:nth-child(4) { animation-delay: 0.4s; }
+        .goal-block:nth-child(5) { animation-delay: 0.5s; }
+
+        .goal-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .goal-number {
+            background: var(--accent);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .goal-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .goal-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
+        }
+
+        .actions-list {
+            margin-left: 3.5rem;
+        }
+
+        .action-item {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1rem;
+            align-items: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .action-item:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .action-input {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .action-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .status-selector {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .status-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--border);
+            background: white;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .status-btn:hover {
+            border-color: var(--text-secondary);
+        }
+
+        .status-btn.active.done {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .status-btn.active.partial {
+            background: var(--warning);
+            border-color: var(--warning);
+            color: var(--primary);
+        }
+
+        .status-btn.active.not-done {
+            background: var(--danger);
+            border-color: var(--danger);
+            color: white;
+        }
+
+        .goal-score {
+            display: inline-block;
+            margin-left: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .goal-score.high {
+            background: var(--success);
+            color: white;
+        }
+
+        .goal-score.medium {
+            background: var(--warning);
+            color: var(--primary);
+        }
+
+        .goal-score.low {
+            background: var(--danger);
+            color: white;
+        }
+
+        .overall-score {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #2a2a2a 100%);
+            border-radius: 16px;
+            text-align: center;
+            color: white;
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+        }
+
+        .overall-score h2 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .score-display {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 5rem;
+            margin: 1rem 0;
+        }
+
+        .score-message {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .info-box {
+            background: #fffbf0;
+            border-left: 4px solid var(--warning);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out 0.3s backwards;
+        }
+
+        .info-box p {
+            color: var(--text);
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-box strong {
+            color: var(--primary);
+        }
+
+        /* History View Styles */
+        .history-grid {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .week-card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .week-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .week-card-header h3 {
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .week-score-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* Team View Styles */
+        .team-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .team-member-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
+
+        .team-member-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .team-member-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Chart Styles */
+        .chart-container {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .chart-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .chart {
+            position: relative;
+            height: 300px;
+        }
+
+        .chart-bar-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 100%;
+            padding: 1rem 0;
+        }
+
+        .chart-bar {
+            flex: 1;
+            max-width: 60px;
+            margin: 0 0.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .bar {
+            width: 100%;
+            background: linear-gradient(to top, var(--accent), #ff8c5a);
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .bar:hover {
+            opacity: 0.8;
+        }
+
+        .bar-label {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .bar-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+
+        .save-indicator {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--success);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(6, 214, 160, 0.3);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+
+        .save-indicator.show {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .action-item {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .status-selector {
+                justify-content: stretch;
+            }
+
+            .status-btn {
+                flex: 1;
+                padding: 0.6rem 0.5rem;
+                font-size: 0.75rem;
+            }
+
+            .actions-list {
+                margin-left: 0;
+            }
+
+            .goal-header {
+                flex-wrap: wrap;
+            }
+
+            .goal-input {
+                width: 100%;
+            }
+
+            .scorecard {
+                padding: 1.5rem;
+            }
+
+            .score-display {
+                font-size: 3.5rem;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>12 Week Year Tracker</h1>
+            <div class="controls">
+                <div class="week-selector">
+                    <label for="weekNumber">Week</label>
+                    <select id="weekNumber" onchange="changeWeek()">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-buttons">
+            <button class="tab-btn active" onclick="switchTab('scorecard')">My Scorecard</button>
+            <button class="tab-btn" onclick="switchTab('history')">My Progress</button>
+            <button class="tab-btn" onclick="switchTab('team')">Team View</button>
+            <button class="tab-btn" onclick="switchTab('charts')">Charts</button>
+        </div>
+
+        <!-- Scorecard View -->
+        <div id="scorecard-view" class="view-section active">
+            <div class="info-box">
+                <p><strong>The 12 Week Year</strong> is a system that redefines your year as 12 weeks, creating urgency and focus to achieve more in less time. By breaking down annual goals into 12-week sprints, you eliminate procrastination and maximize execution.</p>
+                <p><strong>How to fill out this scorecard:</strong> Enter your name, list your 5 goals for the 12-week period, add up to 5 weekly actions under each goal, and mark each action as Done, Partially Done, or Not Done. Your execution score updates automatically and saves locally.</p>
+            </div>
+
+            <div class="scorecard">
+                <div class="team-member">
+                    <input type="text" id="memberName" placeholder="Enter your name..." onchange="saveName()">
+                </div>
+
+                <div class="goals-section" id="goalsContainer"></div>
+
+                <div class="overall-score">
+                    <h2>Weekly Execution Score</h2>
+                    <div class="score-display" id="overallScore">0%</div>
+                    <div class="score-message" id="scoreMessage">Complete your weekly actions to calculate your score!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History View -->
+        <div id="history-view" class="view-section">
+            <div class="scorecard">
+                <h2 style="margin-bottom: 2rem; font-size: 1.8rem;">My 12-Week Progress</h2>
+                <div id="historyContainer" class="history-grid"></div>
+            </div>
+        </div>
+
+        <!-- Team View -->
+        <div id="team-view" class="view-section">
+            <div class="scorecard">
+                <h2 style="margin-bottom: 2rem; font-size: 1.8rem;">Team Progress - Week <span id="teamWeekDisplay">1</span></h2>
+                <div id="teamContainer" class="team-grid"></div>
+            </div>
+        </div>
+
+        <!-- Charts View -->
+        <div id="charts-view" class="view-section">
+            <div class="chart-container">
+                <h3 class="chart-title">My Execution Score Over 12 Weeks</h3>
+                <div class="chart">
+                    <div class="chart-bar-container" id="myChart"></div>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <h3 class="chart-title">Team Average by Week</h3>
+                <div class="chart">
+                    <div class="chart-bar-container" id="teamChart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="save-indicator" id="saveIndicator">✓ Saved</div>
+
+    <script>
+        let currentWeek = 1;
+        let currentUser = '';
+
+        // Initialize the app
+        function initApp() {
+            loadUserName();
+            initializeScorecard();
+            loadWeekData();
+        }
+
+        function saveName() {
+            currentUser = document.getElementById('memberName').value;
+            localStorage.setItem('12week_userName', currentUser);
+            showSaveIndicator();
+        }
+
+        function loadUserName() {
+            currentUser = localStorage.getItem('12week_userName') || '';
+            document.getElementById('memberName').value = currentUser;
+        }
+
+        function changeWeek() {
+            saveCurrentWeek();
+            currentWeek = parseInt(document.getElementById('weekNumber').value);
+            loadWeekData();
+            updateTeamView();
+            updateCharts();
+            document.getElementById('teamWeekDisplay').textContent = currentWeek;
+        }
+
+        function switchTab(tab) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update views
+            document.querySelectorAll('.view-section').forEach(view => view.classList.remove('active'));
+            document.getElementById(tab + '-view').classList.add('active');
+
+            // Load data for specific views
+            if (tab === 'history') {
+                loadHistoryView();
+            } else if (tab === 'team') {
+                updateTeamView();
+            } else if (tab === 'charts') {
+                updateCharts();
+            }
+        }
+
+        function initializeScorecard() {
+            const container = document.getElementById('goalsContainer');
+            container.innerHTML = '';
+            
+            for (let i = 1; i <= 5; i++) {
+                const goalBlock = document.createElement('div');
+                goalBlock.className = 'goal-block';
+                goalBlock.id = `goal-${i}`;
+                
+                goalBlock.innerHTML = `
+                    <div class="goal-header">
+                        <div class="goal-number">${i}</div>
+                        <input type="text" class="goal-input" placeholder="Enter Goal ${i}..." onchange="saveCurrentWeek()">
+                        <span class="goal-score" id="goal-${i}-score"></span>
+                    </div>
+                    <div class="actions-list" id="actions-${i}"></div>
+                `;
+                
+                container.appendChild(goalBlock);
+                
+                for (let j = 1; j <= 5; j++) {
+                    addActionItem(i, j);
+                }
+            }
+        }
+
+        function addActionItem(goalNum, actionNum) {
+            const actionsList = document.getElementById(`actions-${goalNum}`);
+            const actionItem = document.createElement('div');
+            actionItem.className = 'action-item';
+            actionItem.id = `action-${goalNum}-${actionNum}`;
+            
+            actionItem.innerHTML = `
+                <input type="text" class="action-input" placeholder="Weekly Action ${actionNum}..." onchange="saveCurrentWeek()">
+                <div class="status-selector">
+                    <button class="status-btn" data-status="done" onclick="selectStatus(${goalNum}, ${actionNum}, 'done')">Done</button>
+                    <button class="status-btn" data-status="partial" onclick="selectStatus(${goalNum}, ${actionNum}, 'partial')">Partial</button>
+                    <button class="status-btn" data-status="not-done" onclick="selectStatus(${goalNum}, ${actionNum}, 'not-done')">Not Done</button>
+                </div>
+            `;
+            
+            actionsList.appendChild(actionItem);
+        }
+
+        function selectStatus(goalNum, actionNum, status) {
+            const actionItem = document.getElementById(`action-${goalNum}-${actionNum}`);
+            const buttons = actionItem.querySelectorAll('.status-btn');
+            
+            buttons.forEach(btn => {
+                btn.classList.remove('active', 'done', 'partial', 'not-done');
+            });
+            
+            const selectedBtn = actionItem.querySelector(`[data-status="${status}"]`);
+            selectedBtn.classList.add('active', status);
+            
+            actionItem.dataset.status = status;
+            
+            calculateScore();
+            saveCurrentWeek();
+        }
+
+        function calculateScore() {
+            let totalPoints = 0;
+            let totalPossible = 0;
+
+            for (let i = 1; i <= 5; i++) {
+                const actionsContainer = document.getElementById(`actions-${i}`);
+                const actions = actionsContainer.querySelectorAll('.action-item');
+                const goalScoreElement = document.getElementById(`goal-${i}-score`);
+                
+                let goalPoints = 0;
+                let goalPossible = 0;
+                let hasAnyActions = false;
+
+                actions.forEach(action => {
+                    const actionInput = action.querySelector('.action-input');
+                    const status = action.dataset.status;
+                    
+                    if (actionInput.value.trim() !== '') {
+                        hasAnyActions = true;
+                        goalPossible += 1;
+                        
+                        if (status === 'done') {
+                            goalPoints += 1;
+                        } else if (status === 'partial') {
+                            goalPoints += 0.5;
+                        }
+                    }
+                });
+
+                if (hasAnyActions && goalPossible > 0) {
+                    const goalPercent = (goalPoints / goalPossible) * 100;
+                    goalScoreElement.textContent = Math.round(goalPercent) + '%';
+                    goalScoreElement.style.display = 'inline-block';
+                    
+                    goalScoreElement.classList.remove('high', 'medium', 'low');
+                    if (goalPercent >= 85) {
+                        goalScoreElement.classList.add('high');
+                    } else if (goalPercent >= 70) {
+                        goalScoreElement.classList.add('medium');
+                    } else {
+                        goalScoreElement.classList.add('low');
+                    }
+                    
+                    totalPoints += goalPoints;
+                    totalPossible += goalPossible;
+                } else {
+                    goalScoreElement.style.display = 'none';
+                }
+            }
+
+            const overallScoreElement = document.getElementById('overallScore');
+            const messageElement = document.getElementById('scoreMessage');
+            
+            if (totalPossible > 0) {
+                const overallScore = (totalPoints / totalPossible) * 100;
+                overallScoreElement.textContent = Math.round(overallScore) + '%';
+                
+                if (overallScore >= 85) {
+                    messageElement.textContent = '🔥 Outstanding execution! You\'re on track for your 12-week goals!';
+                } else if (overallScore >= 70) {
+                    messageElement.textContent = '👍 Good work! Push harder to reach the 85% threshold.';
+                } else if (overallScore >= 50) {
+                    messageElement.textContent = '⚠️ Below target. Review and adjust your weekly actions.';
+                } else {
+                    messageElement.textContent = '🚨 Critical. Your 12-week goals are at risk. Take action now!';
+                }
+
+                return Math.round(overallScore);
+            } else {
+                overallScoreElement.textContent = '0%';
+                messageElement.textContent = 'Complete your weekly actions to calculate your score!';
+                return 0;
+            }
+        }
+
+        function saveCurrentWeek() {
+            if (!currentUser) {
+                currentUser = document.getElementById('memberName').value || 'Anonymous';
+            }
+
+            const weekData = {
+                userName: currentUser,
+                week: currentWeek,
+                goals: [],
+                score: calculateScore(),
+                timestamp: new Date().toISOString()
+            };
+
+            for (let i = 1; i <= 5; i++) {
+                const goalInput = document.querySelector(`#goal-${i} .goal-input`);
+                const actionsContainer = document.getElementById(`actions-${i}`);
+                const actions = actionsContainer.querySelectorAll('.action-item');
+                
+                const goalData = {
+                    text: goalInput.value,
+                    actions: []
+                };
+
+                actions.forEach((action, index) => {
+                    const actionInput = action.querySelector('.action-input');
+                    const status = action.dataset.status || '';
+                    
+                    goalData.actions.push({
+                        text: actionInput.value,
+                        status: status
+                    });
+                });
+
+                weekData.goals.push(goalData);
+            }
+
+            // Save personal data
+            localStorage.setItem(`12week_${currentUser}_week${currentWeek}`, JSON.stringify(weekData));
+            
+            // Add to team data
+            saveToTeamData(weekData);
+            
+            showSaveIndicator();
+        }
+
+        function saveToTeamData(weekData) {
+            let teamData = JSON.parse(localStorage.getItem('12week_teamData') || '[]');
+            
+            // Remove existing entry for this user/week
+            teamData = teamData.filter(entry => 
+                !(entry.userName === weekData.userName && entry.week === weekData.week)
+            );
+            
+            // Add new entry
+            teamData.push(weekData);
+            
+            localStorage.setItem('12week_teamData', JSON.stringify(teamData));
+        }
+
+        function loadWeekData() {
+            if (!currentUser) return;
+
+            const savedData = localStorage.getItem(`12week_${currentUser}_week${currentWeek}`);
+            
+            if (savedData) {
+                const weekData = JSON.parse(savedData);
+                
+                weekData.goals.forEach((goal, goalIndex) => {
+                    const goalInput = document.querySelector(`#goal-${goalIndex + 1} .goal-input`);
+                    if (goalInput) goalInput.value = goal.text;
+                    
+                    goal.actions.forEach((action, actionIndex) => {
+                        const actionItem = document.getElementById(`action-${goalIndex + 1}-${actionIndex + 1}`);
+                        if (actionItem) {
+                            const actionInput = actionItem.querySelector('.action-input');
+                            actionInput.value = action.text;
+                            
+                            if (action.status) {
+                                actionItem.dataset.status = action.status;
+                                const btn = actionItem.querySelector(`[data-status="${action.status}"]`);
+                                if (btn) {
+                                    btn.classList.add('active', action.status);
+                                }
+                            }
+                        }
+                    });
+                });
+                
+                calculateScore();
+            } else {
+                // Clear the form
+                initializeScorecard();
+            }
+        }
+
+        function loadHistoryView() {
+            const container = document.getElementById('historyContainer');
+            container.innerHTML = '';
+
+            for (let week = 1; week <= 12; week++) {
+                const savedData = localStorage.getItem(`12week_${currentUser}_week${week}`);
+                
+                if (savedData) {
+                    const weekData = JSON.parse(savedData);
+                    const weekCard = document.createElement('div');
+                    weekCard.className = 'week-card';
+                    
+                    const scoreClass = weekData.score >= 85 ? 'high' : weekData.score >= 70 ? 'medium' : 'low';
+                    
+                    weekCard.innerHTML = `
+                        <div class="week-card-header">
+                            <h3>Week ${week}</h3>
+                            <span class="week-score-badge goal-score ${scoreClass}">${weekData.score}%</span>
+                        </div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                            ${new Date(weekData.timestamp).toLocaleDateString()}
+                        </div>
+                    `;
+                    
+                    container.appendChild(weekCard);
+                }
+            }
+
+            if (container.innerHTML === '') {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">No history yet. Complete some weeks to see your progress!</p>';
+            }
+        }
+
+        function updateTeamView() {
+            const container = document.getElementById('teamContainer');
+            container.innerHTML = '';
+            
+            const teamData = JSON.parse(localStorage.getItem('12week_teamData') || '[]');
+            const weekData = teamData.filter(entry => entry.week === currentWeek);
+            
+            if (weekData.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">No team data for this week yet.</p>';
+                return;
+            }
+
+            weekData.forEach(member => {
+                const memberCard = document.createElement('div');
+                memberCard.className = 'team-member-card';
+                
+                const scoreClass = member.score >= 85 ? 'high' : member.score >= 70 ? 'medium' : 'low';
+                
+                memberCard.innerHTML = `
+                    <div class="team-member-header">
+                        <div class="team-member-name">${member.userName}</div>
+                        <span class="goal-score ${scoreClass}">${member.score}%</span>
+                    </div>
+                    <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                        Last updated: ${new Date(member.timestamp).toLocaleString()}
+                    </div>
+                `;
+                
+                container.appendChild(memberCard);
+            });
+        }
+
+        function updateCharts() {
+            // My chart
+            const myChartContainer = document.getElementById('myChart');
+            myChartContainer.innerHTML = '';
+            
+            const myScores = [];
+            for (let week = 1; week <= 12; week++) {
+                const savedData = localStorage.getItem(`12week_${currentUser}_week${week}`);
+                myScores.push(savedData ? JSON.parse(savedData).score : 0);
+            }
+            
+            createBarChart(myChartContainer, myScores);
+            
+            // Team chart
+            const teamChartContainer = document.getElementById('teamChart');
+            teamChartContainer.innerHTML = '';
+            
+            const teamData = JSON.parse(localStorage.getItem('12week_teamData') || '[]');
+            const teamScores = [];
+            
+            for (let week = 1; week <= 12; week++) {
+                const weekData = teamData.filter(entry => entry.week === week);
+                if (weekData.length > 0) {
+                    const avg = weekData.reduce((sum, entry) => sum + entry.score, 0) / weekData.length;
+                    teamScores.push(Math.round(avg));
+                } else {
+                    teamScores.push(0);
+                }
+            }
+            
+            createBarChart(teamChartContainer, teamScores);
+        }
+
+        function createBarChart(container, scores) {
+            scores.forEach((score, index) => {
+                const barDiv = document.createElement('div');
+                barDiv.className = 'chart-bar';
+                
+                const height = score > 0 ? (score / 100) * 250 : 5;
+                
+                barDiv.innerHTML = `
+                    <div class="bar" style="height: ${height}px;">
+                        ${score > 0 ? `<div class="bar-value">${score}%</div>` : ''}
+                    </div>
+                    <div class="bar-label">W${index + 1}</div>
+                `;
+                
+                container.appendChild(barDiv);
+            });
+        }
+
+        function showSaveIndicator() {
+            const indicator = document.getElementById('saveIndicator');
+            indicator.classList.add('show');
+            setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 2000);
+        }
+
+        // Initialize on page load
+        initApp();
+    </script>
+</body>
+</html>
